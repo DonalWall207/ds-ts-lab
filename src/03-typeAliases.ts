@@ -24,54 +24,57 @@ import {
       extension: 131,
     },
   };
-  function makeBuddyList(
-    name: string,
-    buddies: Buddy[],
-    admin?: Administrator
+
+  // Function to create a BuddyList, optionally with an Administrator
+function makeBuddyList(
+    name: string,         
+    buddies: Buddy[],    
+    admin?: Administrator 
   ): BuddyList {
     return {
-      name,
-      members: buddies,
-      administrator: admin,
-    } as BuddyList;
-    // The as operator above casts an object to a specific type.
-  }
-  // Tests for makeBuddyList
-  const myFootballBuddies = makeBuddyList(
-    "Football team",
-    [colleague1, friends[0], colleague2],
-    colleague1
-  )
-  
-  const myBandBuddies = makeBuddyList(
-      "Band name",
-      [colleague1, friends[1]]
-      // No administrator
-    )
-  
-  console.log(myFootballBuddies)
-  console.log(myBandBuddies)
-  //--------------------------------------
-  function findBuddyContact(list: BuddyList, name: string): string | undefined {
-    for (const buddy of list.members) {
-      if (buddy.name === name) {
-        if ("phone" in buddy) {
-          return buddy.phone;
-        }
-        else {
+      name,                
+      members: buddies,    
+      administrator: admin 
+    } as BuddyList;        
+}
+
+
+const myFootballBuddies = makeBuddyList(
+    "Football team",          
+    [colleague1, friends[0], colleague2],  
+    colleague1                
+);
+
+const myBandBuddies = makeBuddyList(
+    "Band name",              
+    [colleague1, friends[1]]  
+);
+
+console.log(myFootballBuddies);
+console.log(myBandBuddies);
+
+// Function to find the contact information of a buddy by name in a BuddyList
+function findBuddyContact(list: BuddyList, name: string): string | undefined {
+    for (const buddy of list.members) {  
+      if (buddy.name === name) {         
+        if ("phone" in buddy) {         
+          return buddy.phone;            
+        } else {                         
           return buddy.contact.email;
         }
       }
-      return undefined;
+      return undefined;  // If no match is found, return undefined
     }
-  }
-  // Test for findBuddyContact.
-  console.log("Contact buddy at: ", findBuddyContact(myFootballBuddies, "Ralph Graham"));
-
-  //getBuddylist
-  function getBuddyListFriends(list: BuddyList): Friend[] {
-    return list.members.filter((buddy) => "phone" in buddy) as Friend[]
-  
 }
-//Test for get buddylistFriends
-  console.log(getBuddyListFriends(myBandBuddies))
+
+console.log("Contact buddy at: ", findBuddyContact(myFootballBuddies, "Ralph Graham"));
+
+//--------------------------------------
+
+// Function to get all friends (those who have a phone property) from a BuddyList
+function getBuddyListFriends(list: BuddyList): Friend[] {
+    return list.members.filter((buddy) => "phone" in buddy) as Friend[];
+    
+}
+
+console.log(getBuddyListFriends(myBandBuddies));
